@@ -203,7 +203,8 @@ otlpExporter conf = do
   let
     defaultHost = "http://localhost:4318"
     host = fromMaybe defaultHost $ otlpEndpoint conf
-  req <- liftIO $ parseRequest (host <> "/v1/traces")
+    tracesEndpoint = fromMaybe (host <> "/v1/traces") $ otlpTracesEndpoint conf
+  req <- liftIO $ parseRequest tracesEndpoint
 
   let (encodingHeader, encoder) =
         maybe
